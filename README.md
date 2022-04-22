@@ -8,6 +8,11 @@ It runs in your console.
 ![Alt text](./umotesniffer1.png?raw=true "Umote Sniffer in gui mode")
 
 
+# install
+
+1. download the binary from the releases page https://github.com/carlosolmos/umotesniffer/releases
+2. create the configuration file (see below)
+
 # build
 
 ```azure
