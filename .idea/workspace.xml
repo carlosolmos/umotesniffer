@@ -5,17 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b8a564d-3ad7-43e2-a90d-fe1b4ced52ef" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/gui/sniffergui.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gui/umotetable.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/cot.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/gui.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/gui.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/verification.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/verification.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/comms/tcp_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/comms/tcp_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/backend.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/backend.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +51,8 @@
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)"
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm"
   }
 }]]></component>
   <component name="RunManager" selected="Go Build.go build main.go GUI">
