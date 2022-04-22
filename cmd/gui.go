@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/carlosolmos/umotesniffer/gui"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -10,6 +11,7 @@ var guiCmd = &cobra.Command{
 	Short: "Launch in GUI mode",
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("launching GUI")
+		gui.RenderFWgui(debugMode)
 	},
 }
 

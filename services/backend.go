@@ -6,33 +6,33 @@ import (
 )
 
 type Backend struct {
-	RUmote    *comms.Client
-	RChan     chan []byte
-	LUmote    *comms.Client
-	LChan     chan []byte
-	debugMode bool
+	TopUmote    *comms.Client
+	TopChan     chan []byte
+	BottomUmote *comms.Client
+	BottomChan  chan []byte
+	debugMode   bool
 }
 
-func NewBackend(debug bool, RHost, RAlias, LHost, LAlias string) (*Backend, error) {
+func NewBackend(debug bool, TopHost, RAlias, BottomHost, LAlias string) (*Backend, error) {
 	log.Debug("New Backend")
 	b := &Backend{
 		debugMode: debug,
 	}
-	b.RChan = make(chan []byte)
-	b.LChan = make(chan []byte)
+	b.TopChan = make(chan []byte)
+	b.BottomChan = make(chan []byte)
 
 	var err error
-	b.RUmote, err = comms.ConnectClient(RHost, RAlias, b.RChan)
+	b.TopUmote, err = comms.ConnectClient(TopHost, RAlias, b.TopChan)
 	if err != nil {
 		return nil, err
 	}
-	go b.RUmote.Receive()
+	go b.TopUmote.Receive()
 
-	b.LUmote, err = comms.ConnectClient(LHost, LAlias, b.LChan)
+	b.BottomUmote, err = comms.ConnectClient(BottomHost, LAlias, b.BottomChan)
 	if err != nil {
 		return nil, err
 	}
-	go b.LUmote.Receive()
+	go b.BottomUmote.Receive()
 
 	return b, nil
 }
@@ -40,10 +40,15 @@ func NewBackend(debug bool, RHost, RAlias, LHost, LAlias string) (*Backend, erro
 func (b *Backend) Run() {
 	for {
 		select {
-		case buffer := <-b.RChan:
-			log.Info("RHost", buffer)
-		case buffer := <-b.LChan:
-			log.Info("LHost", buffer)
+		case buffer := <-b.TopChan:
+			log.Info("TopHost", buffer)
+		case buffer := <-b.BottomChan:
+			log.Info("BottomHost", buffer)
 		}
 	}
+}
+
+func (b *Backend) Shutdown() {
+	b.TopUmote.Close()
+	b.BottomUmote.Close()
 }

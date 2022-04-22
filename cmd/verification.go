@@ -13,10 +13,10 @@ var verifyCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Debug("launching verification")
 		backend, err := services.NewBackend(debugMode,
-			viper.GetString("RHost"),
-			"RHost",
-			viper.GetString("LHost"),
-			"LHost",
+			viper.GetString("TopHost"),
+			viper.GetString("TopAlias"),
+			viper.GetString("BottomHost"),
+			viper.GetString("BottomAlias"),
 		)
 		if err != nil {
 			log.Fatal("error initializing backend ", err.Error())
