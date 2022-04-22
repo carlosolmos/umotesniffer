@@ -1,6 +1,6 @@
 # umotesniffer
 
-Connects to the TCP servers of the micromote daemon to inspect the cot traffic.
+Connects to the TCP servers of two micromotes to inspect the cot traffic.
 
 It runs in your console.
 
@@ -36,7 +36,7 @@ Use "umotesniffer [command] --help" for more information about a command.
 
 ```
 
-# Launch in GUI mode
+# Launch in Console UI mode
 
 ```azure
 $./umotesniffer gui --config config.properties
