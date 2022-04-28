@@ -71,6 +71,8 @@ func (client *Client) Send(message *string) {
 }
 
 func (client *Client) Close() {
-	client.Connected = false
-	_ = client.socket.Close()
+	if client != nil && client.socket != nil {
+		client.Connected = false
+		_ = client.socket.Close()
+	}
 }

@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"github.com/sbabiv/xml2map"
 	log "github.com/sirupsen/logrus"
 	"strings"
@@ -8,6 +9,7 @@ import (
 )
 
 const SYSTEM_STATUS = "STAT"
+const TRANSPORT = "TCP"
 const UNKNOWN = "UNKNOWN"
 
 type CotMessageInfo struct {
@@ -58,10 +60,32 @@ func DecodeCotMessage(data string) *CotMessageInfo {
 
 	if det, ok := v["detail"].(map[string]interface{}); ok {
 		if det != nil {
-			if remarks, ok := det["remarks"].(string); ok {
+			if sniffer, ok := det["sniffer"].(string); ok {
+				//type=tx_ack|addr=%s|id=%d|seq=%d|base=%d
+				msg.Type = TRANSPORT
+				msg.Remarks = make(map[string]string)
+				toks := strings.Split(sniffer, "|")
+				for _, v := range toks {
+					if strings.Contains(v, "=") {
+						kvs := strings.Split(v, "=")
+						if len(kvs) == 2 {
+							msg.Remarks[kvs[0]] = kvs[1]
+						}
+					}
+				}
+				if typeSniff, ok := msg.Remarks["type"]; ok && len(typeSniff) > 0 {
+					msg.Type = typeSniff
+					if msg.Type == "RXACK" {
+						msg.Origin = msg.Remarks["addr"]
+					} else {
+						msg.Destination = msg.Remarks["addr"]
+					}
+
+					msg.Sequence = fmt.Sprintf("id=%s s=%s b=%s", msg.Remarks["id"], msg.Remarks["seq"], msg.Remarks["base"])
+				}
+			} else if remarks, ok := det["remarks"].(string); ok {
 				msg.Type = SYSTEM_STATUS
 				msg.Remarks = make(map[string]string)
-				log.Info(remarks)
 				toks := strings.Split(remarks, ",")
 				for _, v := range toks {
 					if strings.Contains(v, "=") {

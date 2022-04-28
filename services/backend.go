@@ -22,18 +22,20 @@ func NewBackend(debug bool, TopHost, RAlias, BottomHost, LAlias string) (*Backen
 	b.BottomChan = make(chan []byte)
 
 	var err error
-	b.TopUmote, err = comms.ConnectClient(TopHost, RAlias, b.TopChan)
-	if err != nil {
-		return nil, err
+	if len(TopHost) > 0 {
+		b.TopUmote, err = comms.ConnectClient(TopHost, RAlias, b.TopChan)
+		if err != nil {
+			return nil, err
+		}
+		go b.TopUmote.Receive()
 	}
-	go b.TopUmote.Receive()
-
-	b.BottomUmote, err = comms.ConnectClient(BottomHost, LAlias, b.BottomChan)
-	if err != nil {
-		return nil, err
+	if len(BottomHost) > 0 {
+		b.BottomUmote, err = comms.ConnectClient(BottomHost, LAlias, b.BottomChan)
+		if err != nil {
+			return nil, err
+		}
+		go b.BottomUmote.Receive()
 	}
-	go b.BottomUmote.Receive()
-
 	return b, nil
 }
 
