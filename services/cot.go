@@ -104,7 +104,14 @@ func DecodeCotMessage(data string) *CotMessageInfo {
 				if seq, ok := msg.Remarks["SEQ"]; ok {
 					msg.Sequence = seq
 				}
+			} else if payload, ok := det["payload"].(string); ok {
+				msg.Type = "DUMMY"
+				toks := strings.Split(payload, "|")
+				if len(toks) > 0 {
+					msg.Sequence = toks[0]
+				}
 			}
+
 			if flowt, ok := det["_flow-tags_"].(map[string]interface{}); ok {
 				msg.FlowTags = make([]string, 0)
 				for k, _ := range flowt {

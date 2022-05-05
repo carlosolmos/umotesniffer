@@ -9,7 +9,6 @@
       <change beforePath="$PROJECT_DIR$/comms/tcp_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/comms/tcp_client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gui/umotetable.go" beforeDir="false" afterPath="$PROJECT_DIR$/gui/umotetable.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/backend.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/backend.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/cot.go" beforeDir="false" afterPath="$PROJECT_DIR$/services/cot.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

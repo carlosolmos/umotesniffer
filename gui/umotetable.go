@@ -9,7 +9,7 @@ import (
 )
 
 const UMTABLE_W = 96
-const UMTABLE_H = 16
+const UMTABLE_H = 24
 const MAX_STACK = 8
 
 type MessagesStack struct {

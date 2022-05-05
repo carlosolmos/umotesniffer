@@ -5,6 +5,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"io"
 	"net"
+	"time"
 )
 
 const (
@@ -37,25 +38,40 @@ func ConnectClient(targetAddress string, alias string, dataOut chan []byte) (*Cl
 func (client *Client) Receive() {
 	for {
 		if !client.Connected {
-			return
-		}
-		message := make([]byte, BUFFER_MAX_SIZE)
-		//client.socket.SetReadDeadline(time.Now())
-		length, err := client.socket.Read(message)
-		if err != nil {
-			if err == io.EOF {
-				log.Info("disconnecting...")
+			// try to reconnect
+			var err error
+			client.socket, err = net.Dial("tcp", client.Address)
+			if err == nil {
+				log.Info(fmt.Sprintf("connected to %s", client.Address))
+				client.Connected = true
+			} else {
+				log.Warning("Connection failed, waiting...")
+				time.Sleep(3 * time.Second)
 				client.Connected = false
-				client.socket.Close()
-				return
 			}
-			log.Error(err)
-			client.socket.Close()
-			return
-		}
-		if length > 0 {
-			log.Debug(fmt.Sprintf("%s-%s %d bytes", RX, client.Alias, length))
-			client.DataChan <- message[:length]
+		} else {
+			message := make([]byte, BUFFER_MAX_SIZE)
+			//client.socket.SetReadDeadline(time.Now())
+			length, err := client.socket.Read(message)
+			if err != nil {
+				if err == io.EOF {
+					log.Info("disconnecting...")
+					client.Connected = false
+					if client.socket != nil {
+						client.socket.Close()
+					}
+				}
+				log.Error(err)
+				if client.socket != nil {
+					client.socket.Close()
+				}
+				client.Connected = false
+			}
+			// got data
+			if length > 0 {
+				log.Debug(fmt.Sprintf("%s-%s %d bytes", RX, client.Alias, length))
+				client.DataChan <- message[:length]
+			}
 		}
 	}
 }
