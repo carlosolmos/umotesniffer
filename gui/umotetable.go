@@ -9,7 +9,7 @@ import (
 	"umotesniffer/services"
 )
 
-const UMTABLE_W = 120
+const UMTABLE_W = 136
 const UMTABLE_H = 12
 const MAX_STACK = 8
 
@@ -33,7 +33,7 @@ func NewUmoteTable(tableTitle string, x, y int) *UmoteTable {
 	_umTable.PaddingBottom = 1
 	_umTable.PaddingTop = 1
 	_umTable.TextAlignment = ui.AlignRight
-	_umTable.ColumnWidths = []int{9, 20, 9, 8, 8, 8, 6, 44}
+	_umTable.ColumnWidths = []int{9, 20, 9, 8, 8, 8, 8, 8, 6, 44}
 	_umTable.BorderStyle = ui.NewStyle(ui.ColorGreen)
 	_umTable.FillRow = true
 	_umTable.RowStyles[0] = ui.NewStyle(ui.ColorYellow, ui.ColorClear, ui.ModifierBold)
@@ -66,7 +66,7 @@ func (ut *UmoteTable) UpdateUmoteTable(buffer []byte) {
 
 	//lblTick := fmt.Sprintf("%s", time.Now())
 	ut.UmTable.Rows = [][]string{
-		[]string{"ts", "uid", "size", "type", "ori", "dst", "seq", "remarks"},
+		[]string{"ts", "uid", "size", "type", "ori", "dst", "lvl", "pwr", "seq", "remarks"},
 	}
 	if !ut.Messages.IsEmpty() {
 		for inx := len(ut.Messages.Stack) - 1; inx >= 0; inx-- {
@@ -92,6 +92,8 @@ func (ut *UmoteTable) UpdateUmoteTable(buffer []byte) {
 					v.Type,
 					originAddr,
 					destAddr,
+					v.Level,
+					v.Ppower,
 					v.Sequence,
 					strings.Replace(fmt.Sprintf("%v", v.Remarks), "map", "", 1),
 				},

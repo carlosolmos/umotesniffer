@@ -73,6 +73,8 @@ func DecodeBinaryMessage(data []byte) *CotMessageInfo {
 		Uid:           "UAV",
 		Timestamp:     time.Now().Format("15:04:05"),
 		UnixTimestamp: time.Now().Unix(),
+		Level:         "",
+		Ppower:        "",
 	}
 	if MavDecoder == nil {
 		MavDecoder = NewMavlinkDecoder()

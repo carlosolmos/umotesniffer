@@ -1,0 +1,1 @@
+umotesniffer.exe gui --config config.properties

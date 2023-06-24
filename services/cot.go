@@ -25,6 +25,8 @@ type CotMessageInfo struct {
 	Remarks       map[string]string
 	FlowTags      []string
 	Sequence      string
+	Level         string
+	Ppower        string
 }
 
 func DecodeCot2Map(data string) (map[string]interface{}, error) {
@@ -104,6 +106,12 @@ func DecodeCotMessage(data string) *CotMessageInfo {
 				}
 				if seq, ok := msg.Remarks["SEQ"]; ok {
 					msg.Sequence = seq
+				}
+				if lvl, ok := msg.Remarks["LVL"]; ok {
+					msg.Level = lvl
+				}
+				if pow, ok := msg.Remarks["P_POW"]; ok {
+					msg.Ppower = pow
 				}
 			} else if payload, ok := det["payload"].(string); ok {
 				msg.Type = "DUMMY"
