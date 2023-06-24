@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"github.com/carlosolmos/umotesniffer/gui"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
+	"umotesniffer/gui"
 )
 
 var guiCmd = &cobra.Command{

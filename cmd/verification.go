@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"github.com/carlosolmos/umotesniffer/services"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"umotesniffer/services"
 )
 import log "github.com/sirupsen/logrus"
 

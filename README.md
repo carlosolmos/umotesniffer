@@ -10,7 +10,7 @@ It runs in your console.
 
 # install
 
-1. download the binary from the releases page https://github.com/carlosolmos/umotesniffer/releases
+1. download the binary from the releases page https://umotesniffer/releases
 2. create the configuration file (see below)
 
 # build

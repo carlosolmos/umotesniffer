@@ -1,11 +1,11 @@
 package gui
 
 import (
-	"github.com/carlosolmos/umotesniffer/services"
 	ui "github.com/gizak/termui/v3"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"time"
+	"umotesniffer/services"
 )
 
 const UPDATE_INTERVAL = 1

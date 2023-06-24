@@ -2,14 +2,15 @@ package gui
 
 import (
 	"fmt"
-	"github.com/carlosolmos/umotesniffer/services"
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
 	log "github.com/sirupsen/logrus"
+	"strings"
+	"umotesniffer/services"
 )
 
 const UMTABLE_W = 96
-const UMTABLE_H = 24
+const UMTABLE_H = 12
 const MAX_STACK = 8
 
 type MessagesStack struct {
@@ -32,7 +33,7 @@ func NewUmoteTable(tableTitle string, x, y int) *UmoteTable {
 	_umTable.PaddingBottom = 1
 	_umTable.PaddingTop = 1
 	_umTable.TextAlignment = ui.AlignRight
-	_umTable.ColumnWidths = []int{20, 9, 9, 8, 8, 8, 26}
+	_umTable.ColumnWidths = []int{9, 20, 9, 8, 8, 8, 26}
 	_umTable.BorderStyle = ui.NewStyle(ui.ColorGreen)
 	_umTable.FillRow = true
 	_umTable.RowStyles[0] = ui.NewStyle(ui.ColorYellow, ui.ColorClear, ui.ModifierBold)
@@ -41,7 +42,6 @@ func NewUmoteTable(tableTitle string, x, y int) *UmoteTable {
 		UmTable: _umTable,
 	}
 	umt.Messages = &MessagesStack{Stack: make([]*services.CotMessageInfo, 0)}
-
 	return umt
 }
 
@@ -51,9 +51,13 @@ func (ut *UmoteTable) UpdateUmoteTable(buffer []byte) {
 	}
 
 	ut.StrBuffer = fmt.Sprintf("%s", buffer)
-	//TODO: check for fragments
-	log.Debug(ut.Title, ut.StrBuffer)
-	cotMsg := services.DecodeCotMessage(ut.StrBuffer)
+	var cotMsg *services.CotMessageInfo
+	if strings.Contains(ut.StrBuffer, "<event") {
+		log.Debug(ut.Title, ut.StrBuffer)
+		cotMsg = services.DecodeCotMessage(ut.StrBuffer)
+	} else {
+		cotMsg = services.DecodeBinaryMessage(buffer)
+	}
 	if cotMsg == nil {
 		return
 	}
@@ -75,8 +79,13 @@ func (ut *UmoteTable) UpdateUmoteTable(buffer []byte) {
 			if len(v.Destination) > 8 {
 				destAddr = v.Destination[8:]
 			}
+			timeStr := v.Timestamp
+			timeToks := strings.Split(v.Timestamp, "T")
+			if len(timeToks) > 1 {
+				timeStr = timeToks[1]
+			}
 			ut.UmTable.Rows = append(ut.UmTable.Rows,
-				[]string{v.Timestamp,
+				[]string{timeStr,
 					v.Uid,
 					fmt.Sprintf("%d", v.Size),
 					v.Type,

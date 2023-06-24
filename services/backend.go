@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/carlosolmos/umotesniffer/comms"
 	log "github.com/sirupsen/logrus"
+	"umotesniffer/comms"
 )
 
 type Backend struct {
@@ -27,6 +27,7 @@ func NewBackend(debug bool, TopHost, RAlias, BottomHost, LAlias string) (*Backen
 		if err != nil {
 			return nil, err
 		}
+		log.Println("Connected TOP: %s", TopHost)
 		go b.TopUmote.Receive()
 	}
 	if len(BottomHost) > 0 {
@@ -34,6 +35,7 @@ func NewBackend(debug bool, TopHost, RAlias, BottomHost, LAlias string) (*Backen
 		if err != nil {
 			return nil, err
 		}
+		log.Println("Connected Bottom: %s", BottomHost)
 		go b.BottomUmote.Receive()
 	}
 	return b, nil

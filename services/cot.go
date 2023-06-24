@@ -33,6 +33,7 @@ func DecodeCot2Map(data string) (map[string]interface{}, error) {
 }
 
 func DecodeCotMessage(data string) *CotMessageInfo {
+	log.Println("cot message")
 	msg := &CotMessageInfo{}
 	cotMap, err := DecodeCot2Map(data)
 	if err != nil {

@@ -1,6 +1,6 @@
 package main
 
-import "github.com/carlosolmos/umotesniffer/cmd"
+import "umotesniffer/cmd"
 
 var Version = "1.0"
 
