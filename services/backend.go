@@ -1,7 +1,9 @@
 package services
 
 import (
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	log "github.com/sirupsen/logrus"
+	"net/http"
 	"umotesniffer/comms"
 )
 
@@ -20,7 +22,8 @@ func NewBackend(debug bool, TopHost, RAlias, BottomHost, LAlias string) (*Backen
 	}
 	b.TopChan = make(chan []byte)
 	b.BottomChan = make(chan []byte)
-
+	PromMetrics = NewMetrics()
+	go b.StartPrometheus()
 	var err error
 	if len(TopHost) > 0 {
 		b.TopUmote, err = comms.ConnectClient(TopHost, RAlias, b.TopChan)
@@ -55,4 +58,13 @@ func (b *Backend) Run() {
 func (b *Backend) Shutdown() {
 	b.TopUmote.Close()
 	b.BottomUmote.Close()
+}
+
+func (b *Backend) StartPrometheus() {
+	http.Handle("/metrics", promhttp.Handler())
+	err := http.ListenAndServe(":2112", nil)
+	if err != nil {
+		log.Errorf("error starting prometheus endpoint: %s", err.Error())
+		return
+	}
 }

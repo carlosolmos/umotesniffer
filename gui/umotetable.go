@@ -55,8 +55,10 @@ func (ut *UmoteTable) UpdateUmoteTable(buffer []byte) {
 	if strings.Contains(ut.StrBuffer, "<event") {
 		log.Debug(ut.Title, ut.StrBuffer)
 		cotMsg = services.DecodeCotMessage(ut.StrBuffer)
+		services.PromMetrics.UpdateMessageMetrics(cotMsg)
 	} else {
 		cotMsg = services.DecodeBinaryMessage(buffer)
+		services.PromMetrics.IncMavlinkMessages(cotMsg.Uid)
 	}
 	if cotMsg == nil {
 		return
